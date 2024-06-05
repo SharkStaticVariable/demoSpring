@@ -1,0 +1,7 @@
+app.services.greeting.message: Hello!
+spring:
+  datasource:
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://localhost:5432/testing
+    driver-class-name: org.postgresql.Driver
