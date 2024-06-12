@@ -1,6 +1,8 @@
 package com.example.demo.repository;
 
+import com.example.demo.IntegrationBaseTest;
 import com.example.demo.entity.AccountsEntity;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,9 +13,8 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-@SpringBootTest
-@ActiveProfiles("test")
-class AccountsRepositoryTest {
+
+class AccountsRepositoryTest extends IntegrationBaseTest {
 private static final Integer hundred_ID = 1;
     @Autowired
     private AccountsRepository accountsRepository;
@@ -28,9 +29,7 @@ private static final Integer hundred_ID = 1;
     void testGetById(){
     Optional<AccountsEntity> accounts = accountsRepository.findById(hundred_ID);
     assertTrue(accounts.isPresent());
-    accounts.ifPresent(entity ->{
-       /* assertEquals(10000,true,true, entity.getBalance(), entity.isActive(),entity.isLocked());*/
-    });
+    accounts.ifPresent(entity -> { assertEquals(1000, entity.getBalance());});
     }
 
     @Test
