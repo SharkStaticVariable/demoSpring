@@ -15,3 +15,23 @@ CREATE TABLE IF NOT EXISTS users(
     email VARCHAR,
     accounts_id INTEGER REFERENCES accounts(id)
 );
+
+ALTER TABLE users
+add column password varchar ;
+
+ALTER TABLE users
+    add column username varchar ;
+
+CREATE TABLE roles(
+    id SERIAL PRIMARY KEY,
+    name varchar(100) not null
+);
+
+CREATE TABLE users_roles(
+  user_id INT NOT NULL,
+  role_id INT NOT NULL,
+FOREIGN KEY(user_id) REFERENCES users(id),
+FOREIGN KEY (role_id) REFERENCES roles(id),
+UNIQUE (user_id, role_id)
+);
+

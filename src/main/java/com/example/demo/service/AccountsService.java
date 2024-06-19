@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.AccountsDTO;
 import com.example.demo.entity.AccountsEntity;
 import com.example.demo.repository.AccountsRepository;
 import lombok.AllArgsConstructor;
@@ -31,4 +30,6 @@ public class AccountsService {
     public void delete(Integer id) {
         accountsRepository.deleteById(id);
     }
+
+
 }

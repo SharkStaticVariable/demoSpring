@@ -5,5 +5,5 @@ import com.example.demo.entity.UsersEntity;
 import java.util.List;
 
 public interface UsersCustomRepository {
-    List<UsersEntity> findCustomQuery();
+//    List<UsersEntity> findCustomQuery();
 }

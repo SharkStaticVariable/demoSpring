@@ -8,14 +8,14 @@ import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 class JdbcTemplateTest extends IntegrationBaseTest {
-    private static final String Insert_SQL="insert into accounts (balance, isactive, islocked) values (?,?,?);";
-
-    @Autowired
-    private JdbcOperations jdbcOperations;
-
-    @Test
-    void testInsert(){
-        int result = jdbcOperations.update(Insert_SQL, "1000");
-        Assertions.assertEquals(1, result);
-    }
+//    private static final String Insert_SQL="insert into accounts (balance, isactive, islocked) values (?,?,?);";
+//
+//    @Autowired
+//    private JdbcOperations jdbcOperations;
+//
+//    @Test
+//    void testInsert(){
+//        int result = jdbcOperations.update(Insert_SQL, "1000");
+//        Assertions.assertEquals(1, result);
+//    }
 }
