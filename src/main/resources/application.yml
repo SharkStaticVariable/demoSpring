@@ -1,12 +1,21 @@
 app.services.greeting.message: Hello!
 spring:
   datasource:
-    username: postgres
-    password: postgres
-    url: jdbc:postgresql://localhost:5432/postgres
+    password: '${SPRING_DATASOURCE_PASSWORD:postgres}'
+    url: '${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/postgres}'
     driver-class-name: org.postgresql.Driver
-
+    username: '${SPRING_DATASOURCE_USERNAME:postgres}'
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
 #  security:
 #    user:
 #      name: admin
 #      password: admin
+server:
+  port: 8081

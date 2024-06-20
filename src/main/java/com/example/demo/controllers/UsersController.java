@@ -4,6 +4,7 @@ import com.example.demo.dto.UserDto;
 import com.example.demo.entity.AccountsEntity;
 import com.example.demo.entity.RolesEntity;
 import com.example.demo.entity.UsersEntity;
+import com.example.demo.mapper.UserMapper;
 import com.example.demo.service.EncryptDecryptService;
 import com.example.demo.service.UserService;
 import lombok.AllArgsConstructor;
@@ -14,18 +15,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
-@RestController
+@Controller
 @AllArgsConstructor
-@RequestMapping
+@RequestMapping("/users")
 //@EnableMethodSecurity
 public class UsersController {
 
     private final UserService userService;
     EncryptDecryptService encryptDecryptService;
+    private final UserMapper userMapper;
+
 //    @PostMapping("/create")
 //    public String create(@ModelAttribute UserDto userDto, RedirectAttributes redirectAttributes){
 //        if(true){
@@ -36,11 +38,37 @@ public class UsersController {
 //        return "redirect:/users/" + dto.getUsername();
 //    }
 
+    @PostMapping
+    public String listUsers(Model model, @ModelAttribute UserDto userDto) {
+
+        List<UsersEntity> all = userService.findAll();
+        model.addAttribute("users", all);
+
+        return "user/users";
+    }
+
+//    @PostMapping("/api/save/users")
+//    public ResponseEntity<UsersEntity> create(@RequestBody UsersEntity usersEntity) {
+//        String encryptedPassword = encryptDecryptService.encryptMessage(usersEntity.getPassword());
+//        usersEntity.setPassword(encryptedPassword);
+//        return new ResponseEntity<>(userService.save(usersEntity), HttpStatus.OK);
+//    }
+
     @PostMapping("/api/save/users")
-    public ResponseEntity<UsersEntity> create(@RequestBody UsersEntity usersEntity) {
-        String encryptedPassword = encryptDecryptService.encryptMessage(usersEntity.getPassword());
-        usersEntity.setPassword(encryptedPassword);
-        return new ResponseEntity<>(userService.save(usersEntity), HttpStatus.OK);
+    public String create(Model model, @ModelAttribute UserDto userDto) {
+
+        userDto.setRoles(RolesEntity.USER);
+        UsersEntity usersEntity = userMapper.toUserEntity(userDto);
+
+//        String encryptedPassword = encryptDecryptService.encryptMessage(usersEntity.getPassword());
+//        usersEntity.setPassword(encryptedPassword);
+
+        userService.save(usersEntity);
+
+        List<UsersEntity> allUsers = userService.findAll();
+        model.addAttribute("users", allUsers);
+
+        return "user/users";
     }
 
 //    @GetMapping("/api/users")
@@ -71,9 +99,25 @@ public class UsersController {
                 .orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping("/registration")
+    @PostMapping("/registration")
+//    public String registration() {
     public String registration(Model model, @ModelAttribute UserDto userDto) {
-        model.addAttribute("user", userDto);
+
+        UserDto build = UserDto.builder()
+                .password("FASFA")
+                .age(12)
+                .email("123@gmail.com")
+                .roles(RolesEntity.USER)
+                .address("fasfa")
+                .accounts(AccountsEntity.builder()
+                        .isActive(true).build())
+                .documentNumber("sfasf")
+                .firstName("fafaf")
+                .lastName("fasfa")
+                .username("afsa")
+                .phoneNumber("SAFSFAFA")
+                .build();
+        model.addAttribute("user", build);
         model.addAttribute("roles", RolesEntity.values());
         return "user/registration";
     }

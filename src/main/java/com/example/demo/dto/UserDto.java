@@ -3,10 +3,15 @@ package com.example.demo.dto;
 import com.example.demo.entity.AccountsEntity;
 import com.example.demo.entity.RolesEntity;
 
+import lombok.Builder;
 import lombok.Data;
-import lombok.Value;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
+@NoArgsConstructor
+@Builder
 public class UserDto {
      String username;
      String firstName;
