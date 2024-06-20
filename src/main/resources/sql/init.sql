@@ -35,3 +35,10 @@ FOREIGN KEY (role_id) REFERENCES roles(id),
 UNIQUE (user_id, role_id)
 );
 
+CREATE TABLE IF NOT EXISTS keys(
+                                       id SERIAL PRIMARY KEY,
+                                       publicKey varchar(4096),
+                                       privateKey varchar(4096)
+
+);
+

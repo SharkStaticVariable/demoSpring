@@ -1,39 +1,63 @@
 package com.example.demo.controllers;
 
 import com.example.demo.dto.UserDto;
+import com.example.demo.entity.AccountsEntity;
 import com.example.demo.entity.RolesEntity;
+import com.example.demo.entity.UsersEntity;
+import com.example.demo.service.EncryptDecryptService;
 import com.example.demo.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+//import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-@Controller
+import java.util.List;
+
+@RestController
 @AllArgsConstructor
 @RequestMapping
-@EnableMethodSecurity
+//@EnableMethodSecurity
 public class UsersController {
 
     private final UserService userService;
+    EncryptDecryptService encryptDecryptService;
+//    @PostMapping("/create")
+//    public String create(@ModelAttribute UserDto userDto, RedirectAttributes redirectAttributes){
+//        if(true){
+//            redirectAttributes.addFlashAttribute("user", userDto);
+//            return "redirect:/users/registration";
+//        }
+//       UserDto dto =  userService.create(userDto);
+//        return "redirect:/users/" + dto.getUsername();
+//    }
 
-    @PostMapping("/create")
-    public String create(@ModelAttribute UserDto userDto, RedirectAttributes redirectAttributes){
-        if(true){
-            redirectAttributes.addFlashAttribute("user", userDto);
-            return "redirect:/users/registration";
-        }
-       UserDto dto =  userService.create(userDto);
-        return "redirect:/users/" + dto.getUsername();
+    @PostMapping("/api/save/users")
+    public ResponseEntity<UsersEntity> create(@RequestBody UsersEntity usersEntity) {
+        String encryptedPassword = encryptDecryptService.encryptMessage(usersEntity.getPassword());
+        usersEntity.setPassword(encryptedPassword);
+        return new ResponseEntity<>(userService.save(usersEntity), HttpStatus.OK);
     }
 
+//    @GetMapping("/api/users")
+//    public String findAll(Model model){
+//        model.addAttribute("users", userService.findAll());
+//        return "users";
+//    }
+
+
     @GetMapping("/api/users")
-    public String findAll(Model model){
-        model.addAttribute("users", userService.findAll());
-        return "users";
+    public ResponseEntity<List<UsersEntity>> findAll() {
+        List<UsersEntity> users = userService.findAll();
+        users.forEach(user -> {
+            String decryptedPassword = encryptDecryptService.decryptMessage(user.getPassword());
+            user.setPassword(decryptedPassword);
+        });
+        return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/api/users/{id}")

@@ -38,7 +38,6 @@ public class UsersEntity {
     @Column(name="password")
     private String password;
 
-
     @ManyToOne
     @JoinColumn(name="accounts_id")
     private AccountsEntity accounts;

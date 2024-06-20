@@ -16,7 +16,6 @@ import java.util.List;
 public class AccountsController {
     private final AccountsService accountsService;
 
-
     @GetMapping("/api/accounts")
     public ResponseEntity<List<AccountsEntity>> readAll(){
         return new ResponseEntity<>(accountsService.readAll(), HttpStatus.OK);
@@ -27,12 +26,10 @@ public class AccountsController {
         return "Welcome to the unprotected page";
     }
 
-
     @PostMapping("/api/save")
     public ResponseEntity<AccountsEntity> save(@RequestBody AccountsEntity accountsEntity) {
         return new ResponseEntity<>(accountsService.save(accountsEntity), HttpStatus.OK);
     }
-
 
     @PutMapping("/api/put")
     public ResponseEntity<AccountsEntity> update(@RequestBody AccountsEntity accountsEntity){
@@ -44,9 +41,4 @@ public class AccountsController {
     accountsService.delete(id);
     return HttpStatus.OK;
     }
-
-
-
-
-
 }
