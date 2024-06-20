@@ -8,7 +8,7 @@ import java.util.Optional;
 @Repository
 public interface UsersRepository extends JpaRepository<UsersEntity,Integer>, UsersCustomRepository {
 
-//    Optional<UsersEntity> findByName(String username);
+    Optional<UsersEntity> findByUsername(String username);
 
 //    @Query("select u from UsersEntity u where u.firstName = :name and u.age = :age")
 //    List<UsersEntity> findAllByFirstNameAndAge(@Param("name") String firstName, @Param("age") Integer age);

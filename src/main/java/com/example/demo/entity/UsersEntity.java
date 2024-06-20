@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
+
 
 @Data
 @NoArgsConstructor
@@ -34,8 +34,7 @@ public class UsersEntity {
     private String documentNumber;
     @Column(name="email")
     private String email;
-    @Transient
-    transient private String confirmPassword;
+
     @Column(name="password")
     private String password;
 
@@ -43,8 +42,7 @@ public class UsersEntity {
     @ManyToOne
     @JoinColumn(name="accounts_id")
     private AccountsEntity accounts;
-    @ManyToMany
-    @JoinTable(name="users_roles", joinColumns = @JoinColumn(name="user_id"),
-            inverseJoinColumns = @JoinColumn(name="role_id"))
-    private Set<RolesEntity> roles;
+
+    @Enumerated(EnumType.STRING)
+    private RolesEntity roles;
 }

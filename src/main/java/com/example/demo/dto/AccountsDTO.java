@@ -8,4 +8,7 @@ public class AccountsDTO {
     private boolean isActive;
     private boolean isLocked;
 
+    public AccountsDTO(Integer id, double balance, boolean locked, boolean active) {
+    }
+
 }
