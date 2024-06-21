@@ -6,6 +6,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static com.example.demo.entity.RolesEntity.ADMIN;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -16,6 +18,7 @@ public class SecurityConfig {
                 .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.disable())
                 .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable())
                 .authorizeHttpRequests(auth -> auth
+//                        .requestMatchers("/admin/**").hasRole(ADMIN.getAuthority())
                         .anyRequest().permitAll())
                 .formLogin(login -> login
                                 .loginPage("/login")

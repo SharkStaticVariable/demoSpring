@@ -22,5 +22,19 @@ public class LoginController {
     @PostMapping("/in")
     public String login(Model model, @ModelAttribute LoginDto loginDto) {
         log.info("Данные для входа: {}", loginDto);
-        return "/licabinet";    }
+
+        if (userHasRole(loginDto.getUsername(), "ADMIN")) {
+            return "redirect:/admin";
+        } else {
+            return "redirect:/licabinet";
+        }
+    }
+
+    private boolean userHasRole(String username, String role) {
+        // Здесь может быть логика проверки роли пользователя в вашей системе
+        // В данном примере просто предполагаем, что пользователь с ролью ADMIN
+        // имеет имя пользователя "admin"
+        return "admin".equals(username) && "ADMIN".equals(role);
+    }
+
 }

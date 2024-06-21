@@ -28,12 +28,19 @@ public class UsersController {
     EncryptDecryptService encryptDecryptService;
     private final UserMapper userMapper;
 
-    @PostMapping
-    public String listUsers(Model model, @ModelAttribute UserDto userDto) {
-        List<UsersEntity> all = userService.findAll();
-        model.addAttribute("users", all);
-        return "user/users";
-    }
+//    @PostMapping
+//    public String listUsers(Model model, @ModelAttribute UserDto userDto) {
+//        List<UsersEntity> all = userService.findAll();
+//        model.addAttribute("users", all);
+//        return "admin";
+//    }
+
+//    @GetMapping("/admin")
+//    public String adminPage(Model model) {
+//        List<UsersEntity> allUsers = userService.findAll();
+//        model.addAttribute("users", allUsers);
+//        return "admin";
+//    }
 
     @PostMapping("/api/save/users")
     public String create(Model model, @ModelAttribute UserDto userDto) {
@@ -46,7 +53,7 @@ public class UsersController {
         userService.save(usersEntity);
         List<UsersEntity> allUsers = userService.findAll();
         model.addAttribute("users", allUsers);
-        return "user/users";
+        return "licabinet";
     }
 
     @GetMapping("/api/users")

@@ -19,6 +19,6 @@ public class LiCabinetController {
     @GetMapping
     public String licabinetPage() {
         log.info("Переход на страницу личного кабинета");
-        return "user/licabinet";
+        return "/licabinet";
     }
 }
