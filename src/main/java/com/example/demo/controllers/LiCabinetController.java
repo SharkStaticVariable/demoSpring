@@ -1,6 +1,8 @@
 package com.example.demo.controllers;
 
-import com.example.demo.dto.LoginDto;
+import com.example.demo.dto.UserDto;
+import com.example.demo.entity.AccountsEntity;
+import com.example.demo.entity.RolesEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,17 +12,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/login")
+@RequestMapping("/licabinet")
 @Slf4j
-public class LoginController {
+public class LiCabinetController {
 
     @GetMapping
-    public String loginPage() {
-        return "login";
+    public String licabinetPage() {
+        log.info("Переход на страницу личного кабинета");
+        return "user/licabinet";
     }
-
-    @PostMapping("/in")
-    public String login(Model model, @ModelAttribute LoginDto loginDto) {
-        log.info("Данные для входа: {}", loginDto);
-        return "/licabinet";    }
 }

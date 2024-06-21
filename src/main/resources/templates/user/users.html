@@ -5,11 +5,211 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Админ-панель</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+        }
+        #usersTable {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+        #usersTable th, #usersTable td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        #usersTable th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        #usersTable tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        #usersTable tbody tr:hover {
+            background-color: #ddd;
+        }
+        .edit-btn, .delete-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            margin: 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .delete-btn {
+            background-color: #f44336;
+        }
+        .edit-btn:hover, .delete-btn:hover {
+            opacity: 0.8;
+        }
+        #addUserBtn {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            text-align: center;
+        }
+        #addUserBtn:hover {
+            opacity: 0.8;
+        }
+        #userModal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+        #userModalContent {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        #userForm div {
+            margin-bottom: 10px;
+        }
+        #userForm label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        #userForm input[type="text"],
+        #userForm input[type="number"],
+        #userForm input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        #saveUserBtn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        #saveUserBtn:hover {
+            opacity: 0.8;
+        }
+    </style>
 </head>
 <body>
 <div th:each="user:${users}">
 <a th:href="@{'/users/'+${user.id}}" th:text="|${user.id}. ${user.username}|">USER</a>
 </div>
+<h2>Users</h2>
+<table id="usersTable" class="display">
+    <thead>
+    <tr>
+        <th>Логин</th>
+        <th>Имя</th>
+        <th>Фамилия</th>
+        <th>Возраст</th>
+        <th>Номер телефона</th>
+        <th>Адресс</th>
+        <th>Серия и номер паспорта</th>
+        <th>Эл. почта</th>
+        <th>Пароль</th>
+        <th>Счёт</th>
+        <th>Доступ</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.username}">Логин</td>
+        <td th:text="${user.firstName}">Имя</td>
+        <td th:text="${user.lastName}">Фамилия</td>
+        <td th:text="${user.age}">Возраст</td>
+        <td th:text="${user.phoneNumber}">Номер телефона</td>
+        <td th:text="${user.address}">Адресс</td>
+        <td th:text="${user.documentNumber}">Серия и номер паспорта</td>
+        <td th:text="${user.email}">Эл. почта</td>
+        <td th:text="${user.password}">Пароль</td>
+        <td th:text="${user.accounts}">Счёт</td>
+        <td th:text="${user.roles}">Доступ</td>
+        <td>
+            <button class="edit-btn" data-id="${user.id}">Изменить</button>
+            <button class="delete-btn" data-id="${user.id}">Удалить</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div id="userModal" style="display:none;">
+    <form id="userForm">
+        <input type="hidden" id="userId">
+        <div>
+            <label for="username">Username:</label>
+            <input id="username" type="text" name="username">
+        </div>
+        <div>
+            <label for="firstName">First Name:</label>
+            <input id="firstName" type="text" name="firstName">
+        </div>
+        <div>
+            <label for="lastName">Last Name:</label>
+            <input id="lastName" type="text" name="lastName">
+        </div>
+        <div>
+            <label for="age">Age:</label>
+            <input id="age" type="number" name="age">
+        </div>
+        <div>
+            <label for="phoneNumber">Phone Number:</label>
+            <input id="phoneNumber" type="text" name="phoneNumber">
+        </div>
+        <div>
+            <label for="address">Address:</label>
+            <input id="address" type="text" name="address">
+        </div>
+        <div>
+            <label for="documentNumber">Document Number:</label>
+            <input id="documentNumber" type="text" name="documentNumber">
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            <input id="email" type="text" name="email">
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input id="password" type="password" name="password">
+        </div>
+        <button type="button" id="saveUserBtn">Save</button>
+    </form>
+</div>
+
 </body>
 </html>

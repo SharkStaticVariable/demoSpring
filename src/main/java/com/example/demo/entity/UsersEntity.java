@@ -35,7 +35,7 @@ public class UsersEntity {
     @Column(name="email")
     private String email;
 
-    @Column(name="password")
+    @Column(name="password", length = 4096)
     private String password;
 
     @ManyToOne

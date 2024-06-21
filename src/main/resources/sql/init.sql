@@ -42,3 +42,12 @@ CREATE TABLE IF NOT EXISTS keys(
 
 );
 
+ALTER TABLE keys
+    ALTER COLUMN publicKey TYPE BYTEA USING publicKey::BYTEA;
+
+
+ALTER TABLE users ALTER COLUMN address TYPE VARCHAR(500); -- Adjust the length as per your requirements
+
+ALTER TABLE users ALTER COLUMN username TYPE VARCHAR(512);
+
+ALTER TABLE users ALTER COLUMN password TYPE VARCHAR(4096);

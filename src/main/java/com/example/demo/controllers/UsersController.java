@@ -28,79 +28,38 @@ public class UsersController {
     EncryptDecryptService encryptDecryptService;
     private final UserMapper userMapper;
 
-//    @PostMapping("/create")
-//    public String create(@ModelAttribute UserDto userDto, RedirectAttributes redirectAttributes){
-//        if(true){
-//            redirectAttributes.addFlashAttribute("user", userDto);
-//            return "redirect:/users/registration";
-//        }
-//       UserDto dto =  userService.create(userDto);
-//        return "redirect:/users/" + dto.getUsername();
-//    }
-
     @PostMapping
     public String listUsers(Model model, @ModelAttribute UserDto userDto) {
-
         List<UsersEntity> all = userService.findAll();
         model.addAttribute("users", all);
-
         return "user/users";
     }
-
-//    @PostMapping("/api/save/users")
-//    public ResponseEntity<UsersEntity> create(@RequestBody UsersEntity usersEntity) {
-//        String encryptedPassword = encryptDecryptService.encryptMessage(usersEntity.getPassword());
-//        usersEntity.setPassword(encryptedPassword);
-//        return new ResponseEntity<>(userService.save(usersEntity), HttpStatus.OK);
-//    }
 
     @PostMapping("/api/save/users")
     public String create(Model model, @ModelAttribute UserDto userDto) {
-
         userDto.setRoles(RolesEntity.USER);
         UsersEntity usersEntity = userMapper.toUserEntity(userDto);
 
-//        String encryptedPassword = encryptDecryptService.encryptMessage(usersEntity.getPassword());
-//        usersEntity.setPassword(encryptedPassword);
+        String encryptedPassword = encryptDecryptService.encryptMessage(usersEntity.getPassword());
+        usersEntity.setPassword(encryptedPassword);
 
         userService.save(usersEntity);
-
         List<UsersEntity> allUsers = userService.findAll();
         model.addAttribute("users", allUsers);
-
         return "user/users";
     }
-
-//    @GetMapping("/api/users")
-//    public String findAll(Model model){
-//        model.addAttribute("users", userService.findAll());
-//        return "users";
-//    }
-
 
     @GetMapping("/api/users")
     public ResponseEntity<List<UsersEntity>> findAll() {
         List<UsersEntity> users = userService.findAll();
-        users.forEach(user -> {
-            String decryptedPassword = encryptDecryptService.decryptMessage(user.getPassword());
-            user.setPassword(decryptedPassword);
-        });
+//        users.forEach(user -> {
+//            String decryptedPassword = encryptDecryptService.decryptMessage(user.getPassword());
+//            user.setPassword(decryptedPassword);
+//        });
         return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/api/users/{id}")
-    public String findById(@PathVariable("id") Integer id, Model model){
-        return userService.findById(id)
-                .map(user->{
-                    model.addAttribute("user", user);
-                    model.addAttribute("roles", RolesEntity.values());
-                    return "user";
-                })
-                .orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND));
-    }
-
     @PostMapping("/registration")
-//    public String registration() {
     public String registration(Model model, @ModelAttribute UserDto userDto) {
 
         UserDto build = UserDto.builder()
@@ -135,6 +94,49 @@ public class UsersController {
           throw new ResponseStatusException(HttpStatus.NOT_FOUND);
       }
       return "redirect:/user";
-
     }
+
+
+    //    @GetMapping("/api/users/{id}")
+//    public String findById(@PathVariable("id") Integer id, Model model){
+//        return userService.findById(id)
+//                .map(user->{
+//                    model.addAttribute("user", user);
+//                    model.addAttribute("roles", RolesEntity.values());
+//                    return "user";
+//                })
+//                .orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND));
+//    }
+//    @PostMapping("/create")
+//    public String create(@ModelAttribute UserDto userDto, RedirectAttributes redirectAttributes){
+//        if(true){
+//            redirectAttributes.addFlashAttribute("user", userDto);
+//            return "redirect:/users/registration";
+//        }
+//       UserDto dto =  userService.create(userDto);
+//        return "redirect:/users/" + dto.getUsername();
+//    }
+    //    @GetMapping("/api/users")
+//    public String findAll(Model model){
+//        model.addAttribute("users", userService.findAll());
+//        return "users";
+//    }
+
+//    @PostMapping("/api/save/users")
+//    public ResponseEntity<UsersEntity> create(@RequestBody UsersEntity usersEntity) {
+//        String encryptedPassword = encryptDecryptService.encryptMessage(usersEntity.getPassword());
+//        usersEntity.setPassword(encryptedPassword);
+//        return new ResponseEntity<>(userService.save(usersEntity), HttpStatus.OK);
+//    }
+
+//    @PostMapping("/create")
+//    public String create(@ModelAttribute UserDto userDto, RedirectAttributes redirectAttributes){
+//        if(true){
+//            redirectAttributes.addFlashAttribute("user", userDto);
+//            return "redirect:/users/registration";
+//        }
+//       UserDto dto =  userService.create(userDto);
+//        return "redirect:/users/" + dto.getUsername();
+//    }
+
 }
