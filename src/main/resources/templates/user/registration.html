@@ -5,44 +5,48 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+<!--    <title>Document</title>-->
+    <link rel="stylesheet" href="../static/stylereg.css">
+
 </head>
 <body>
-<form th:action="@{/users/api/save/users}" method="post" th:object="${user}">
+<div class="container">
+    <h2>Регистрация</h2>
+<form th:action="@{/users/api/save/users}" method="post" class="register-form"  th:object="${user}">
 
-    <label for="username">Username:
+    <label for="username">Логин:
         <input id="username" type="text" name="username" th:value="*{username}">
     </label><br>
 
-    <label for="age">Age:
+    <label for="age">Возраст:
         <input id="age" type="number" name="age" th:value="*{age}">
     </label><br>
 
-    <label for="lastname">Lastname:
+    <label for="lastname">Фамилия:
         <input id="lastname" type="text" name="lastName" th:value="*{lastName}">
     </label><br>
 
-    <label for="firstname">Firstname:
+    <label for="firstname">Имя:
         <input id="firstname" type="text" name="firstName" th:value="*{firstName}">
     </label><br>
 
-    <label for="phonenumber">phoneNumber:
+    <label for="phonenumber">Номер телефона:
         <input id="phonenumber" type="text" name="phoneNumber" th:value="*{phoneNumber}">
     </label><br>
 
-    <label for="address">address:
+    <label for="address">Адресс:
         <input id="address" type="text" name="address" th:value="*{address}">
     </label><br>
 
-    <label for="documentNumber">documentNumber:
+    <label for="documentNumber">Серия и номер паспорта:
         <input id="documentNumber" type="text" name="documentNumber" th:value="*{documentNumber}">
     </label><br>
 
-    <label for="email">email:
+    <label for="email">Эл. почта:
         <input id="email" type="text" name="email" th:value="*{email}">
     </label><br>
 
-    <label for="password">password:
+    <label for="password">Пароль:
         <input id="password" type="text" name="password" th:value="*{password}">
     </label><br>
 
@@ -51,7 +55,8 @@
 <!--        <label th:for="${role}" th:text="${role} ">Role name</label>-->
 <!--    </div>-->
 
-    <button type="submit">Register</button>
+    <button type="submit">Зарегистрироваться</button>
 </form>
+</div>
 </body>
 </html>
