@@ -3,16 +3,17 @@ package com.example.demo.controllers;
 import com.example.demo.entity.RolesEntity;
 import com.example.demo.entity.UsersEntity;
 import com.example.demo.service.UserService;
-import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/admin")
@@ -39,6 +40,24 @@ public class AdminController {
         List<UsersEntity> allUsers = userService.findAll();
         model.addAttribute("users", allUsers);
         return "user/admin";
+    }
+
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<Void> editUser(@PathVariable Integer id, @RequestBody Map<String, String> updates) {
+        log.info("Received request to update user with ID: {}", id);
+        log.info("Update details: {}", updates);
+        String newRole = updates.get("roles");
+        log.info("New role: {}", newRole);
+
+        boolean updated = userService.updateUserRole(id, newRole);
+        if (!updated) {
+            log.info("New role: {}", newRole);
+
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        log.info("Successfully updated user with ID: {}", id);
+
+        return ResponseEntity.noContent().build();
     }
 
 }

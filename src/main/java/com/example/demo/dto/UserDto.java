@@ -19,13 +19,12 @@ public class UserDto {
      int age;
      String phoneNumber;
      String address;
-     String documentNumber;
+     String middleName;
      String email;
      String password;
-     AccountsEntity accounts;
      RolesEntity roles;
 
-     public UserDto(String username, String firstName, String lastName, int age, String phoneNumber, String address, String documentNumber, String email, String password, AccountsEntity accounts, RolesEntity roles) {
+     public UserDto(String username, String firstName, String lastName, int age, String phoneNumber, String address, String middleName, String email, String password,  RolesEntity roles) {
      }
 
      public String getUsername() {
@@ -52,9 +51,7 @@ public class UserDto {
           return address;
      }
 
-     public String getDocumentNumber() {
-          return documentNumber;
-     }
+
 
      public String getEmail() {
           return email;
@@ -64,11 +61,12 @@ public class UserDto {
           return password;
      }
 
-     public AccountsEntity getAccounts() {
-          return accounts;
-     }
 
      public RolesEntity getRoles() {
           return roles;
+     }
+
+     public String getMiddleName() {
+          return middleName;
      }
 }

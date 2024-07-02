@@ -4,6 +4,11 @@ CREATE TABLE IF NOT EXISTS accounts(
     isActive BOOLEAN,
     isLocked BOOLEAN
 );
+ALTER TABLE accounts
+    add column number int ;
+ALTER TABLE accounts
+    drop column isLocked  ;
+
 CREATE TABLE IF NOT EXISTS users(
     id SERIAL PRIMARY KEY,
     first_name VARCHAR NOT NULL,
@@ -16,9 +21,16 @@ CREATE TABLE IF NOT EXISTS users(
     accounts_id INTEGER REFERENCES accounts(id)
 );
 
+
 ALTER TABLE users
 add column password varchar ;
+ALTER TABLE users
+    drop column accounts_id  ;
+ALTER TABLE users
+    add column middleName varchar ;
 
+ALTER TABLE users
+    drop column documentNumber  ;
 ALTER TABLE users
     add column username varchar ;
 

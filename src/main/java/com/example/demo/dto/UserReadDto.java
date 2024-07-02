@@ -13,9 +13,8 @@ public class UserReadDto {
     int age;
     String phoneNumber;
     String address;
-    String documentNumber;
+    String middleName;
     String email;
     String password;
-    AccountsEntity accounts;
     RolesEntity roles;
 }

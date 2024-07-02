@@ -6,9 +6,9 @@ import lombok.Data;
 public class AccountsDTO {
     private double balance;
     private boolean isActive;
-    private boolean isLocked;
+    private int number;
 
-    public AccountsDTO(Integer id, double balance, boolean locked, boolean active) {
+    public AccountsDTO(Integer id, double balance, int number, boolean active) {
     }
 
 }

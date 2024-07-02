@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,24 +25,32 @@ public class UsersEntity {
     private String firstName;
     @Column(name="last_name")
     private String lastName;
+    @Column(name = "middlename")
+    private String middleName;
     @Column(name="age")
     private int age;
     @Column(name = "phonenumber")
     private String phoneNumber;
     @Column(name="address")
     private String address;
-    @Column(name = "documentnumber")
-    private String documentNumber;
+
     @Column(name="email")
     private String email;
 
     @Column(name="password", length = 4096)
     private String password;
 
-    @ManyToOne
-    @JoinColumn(name="accounts_id")
-    private AccountsEntity accounts;
+
+
+    public RolesEntity getRoles() {
+        return roles;
+    }
+
+    public void setRoles(RolesEntity roles) {
+        this.roles = roles;
+    }
 
     @Enumerated(EnumType.STRING)
     private RolesEntity roles;
+
 }

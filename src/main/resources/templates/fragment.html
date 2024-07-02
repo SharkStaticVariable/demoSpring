@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -10,7 +10,7 @@
 <body>
 <div th:fragment="header">
     <form action="/logout" method="post" >
-        <div><input type="submit" />LOGOUT</div>
+        <div><input type="submit" value="Выйти"/></div>
     </form>
 </div>
 

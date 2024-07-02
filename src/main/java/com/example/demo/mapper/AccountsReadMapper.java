@@ -11,7 +11,7 @@ public class AccountsReadMapper implements Mapper<AccountsEntity, AccountsDTO>{
         return new AccountsDTO(
                 object.getId(),
                 object.getBalance(),
-                object.isLocked(),
+                object.getNumber(),
                 object.isActive()
         );
     }

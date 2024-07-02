@@ -1,7 +1,14 @@
 package com.example.demo.controllers;
 
 import com.example.demo.dto.LoginDto;
+import com.example.demo.entity.RolesEntity;
+import com.example.demo.entity.UsersEntity;
+import com.example.demo.repository.UsersRepository;
+import com.example.demo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.relational.core.sql.In;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,27 +21,60 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Slf4j
 public class LoginController {
 
+    @Autowired
+    public UserService userService;
+    public UsersRepository usersRepository;
     @GetMapping
     public String loginPage() {
         return "login";
     }
-
     @PostMapping("/in")
     public String login(Model model, @ModelAttribute LoginDto loginDto) {
         log.info("Данные для входа: {}", loginDto);
+        Integer userId = userService.getUserIdByUsername(loginDto.getUsername());
 
-        if (userHasRole(loginDto.getUsername(), "ADMIN")) {
-            return "redirect:/admin";
-        } else {
-            return "redirect:/licabinet";
+        try {
+            if (userHasRole(userId)) {
+                return "redirect:/admin?userId=" + userId;
+            } else {
+                return "redirect:/licabinet?userId="+ userId;
+            }
+        } catch (UsernameNotFoundException e) {
+            log.error("User not found with userId: {}", userId);
+            // Обработка случаев, когда пользователь не найден
+            // Например, перенаправление на страницу ошибки или возврат на страницу входа с сообщением об ошибке
+            return "redirect:/login?error";
         }
     }
 
-    private boolean userHasRole(String username, String role) {
-        // Здесь может быть логика проверки роли пользователя в вашей системе
-        // В данном примере просто предполагаем, что пользователь с ролью ADMIN
-        // имеет имя пользователя "admin"
-        return "admin".equals(username) && "ADMIN".equals(role);
+    private boolean userHasRole(Integer userId) {
+        // Получаем пользователя по его идентификатору
+        UsersEntity user = userService.getUserById(userId);
+
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found with userId: " + userId);
+        }
+
+        // Проверяем, имеет ли пользователь роль "ADMIN"
+        return RolesEntity.ADMIN.equals(user.getRoles());
     }
+//    @PostMapping("/in")
+//    public String login(Model model, @ModelAttribute LoginDto loginDto) {
+//        log.info("Данные для входа: {}", loginDto);
+//        Integer userId = userService.getUserIdByUsername(loginDto.getUsername());
+//        if (userHasRole(loginDto.getUsername(), "ADMIN")) {
+//            return "redirect:/admin?userId=" + userId;
+//        } else {
+//            return "redirect:/licabinet?userId="+ userId;
+//        }
+//    }
+//
+//    private boolean userHasRole(String username, String role) {
+//        // Здесь может быть логика проверки роли пользователя в вашей системе
+//        // В данном примере просто предполагаем, что пользователь с ролью ADMIN
+//        // имеет имя пользователя "admin"
+//        return "ADMIN".equals(role);
+//    }
+
 
 }

@@ -19,9 +19,7 @@ public class UserReadMapper implements Mapper<UsersEntity, UserDto> {
 
     @Override
     public UserDto map(UsersEntity object) {
-        AccountsDTO accountsDTO = Optional.ofNullable(object.getAccounts())
-                .map(accountsReadMapper::map)
-                .orElse(null);
+
         return new UserDto(
                 object.getUsername(),
                 object.getFirstName(),
@@ -29,10 +27,9 @@ public class UserReadMapper implements Mapper<UsersEntity, UserDto> {
                 object.getAge(),
                 object.getPhoneNumber(),
                 object.getAddress(),
-                object.getDocumentNumber(),
+                object.getMiddleName(),
                 object.getEmail(),
                 object.getPassword(),
-                object.getAccounts(),
                 object.getRoles()
         );
     }

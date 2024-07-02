@@ -1,7 +1,10 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.math.BigDecimal;
 
 @Data
 @AllArgsConstructor
@@ -11,30 +14,33 @@ import lombok.*;
 @Setter
 @Table(name="accounts")
 public class AccountsEntity {
+    @Setter
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private double balance;
+
     @Column(name = "isactive")
     private boolean isActive;
-    @Column(name = "islocked")
-    private boolean isLocked;
 
-    public AccountsEntity(double balance, boolean isActive, boolean isLocked) {
+    private int number;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id", referencedColumnName = "id") // Здесь указываем имя столбца исходной таблицы и имя колонки
+    @JsonIgnore
+    private UsersEntity user;
+
+    public AccountsEntity(double balance, boolean isActive, int number) {
         this.balance = balance;
         this.isActive = isActive;
-        this.isLocked = isLocked;
+        this.number = number;
     }
     public AccountsEntity(){
-
     }
 
-    public Integer getId() {
-        return id;
-    }
+    public void setBalance(BigDecimal zero) {
 
-    public void setId(Integer id) {
-        this.id = id;
     }
 }

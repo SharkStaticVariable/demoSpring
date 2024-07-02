@@ -5,6 +5,7 @@ import com.example.demo.entity.AccountsEntity;
 import com.example.demo.entity.UsersEntity;
 import com.example.demo.repository.AccountsRepository;
 import lombok.RequiredArgsConstructor;
+import org.mapstruct.MappingTarget;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -12,6 +13,7 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 public class UserCreateEditMapper implements Mapper<UserDto, UsersEntity>{
+
 
     private final AccountsRepository accountsRepository;
 
@@ -33,12 +35,11 @@ public class UserCreateEditMapper implements Mapper<UserDto, UsersEntity>{
         usersEntity.setPassword(object.getPassword());
         usersEntity.setEmail(object.getEmail());
         usersEntity.setAddress(object.getAddress());
-        usersEntity.setDocumentNumber(object.getDocumentNumber());
+        usersEntity.setMiddleName(object.getMiddleName());
         usersEntity.setFirstName(object.getFirstName());
         usersEntity.setLastName(object.getLastName());
         usersEntity.setPhoneNumber(object.getPhoneNumber());
         usersEntity.setRoles(object.getRoles());
-        usersEntity.setAccounts(getAccountsEntity(object.getAccounts().getId()));
     }
 
     private AccountsEntity getAccountsEntity(Integer accountsId) {
